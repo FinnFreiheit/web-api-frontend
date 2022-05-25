@@ -1,14 +1,14 @@
 import ApiBrowse from "../components/Showroom/apiBrowse";
 import React, {useEffect} from "react"
-import apiBrowseData from "../services/apiBrowse"
-import plcBrowseDataService from "../services/plcBrowseData";
+import apiBrowseData from "../services/Data/apiBrowse"
+import plcBrowseDataService from "../services/Data/plcBrowseData";
 import style from "../styles/Showroom.module.css"
 import PlcBrowse from "../components/Showroom/plcBrowse/plcBrowse";
 import Box from "@mui/material/Box";
 import {CircularProgress, Grid} from "@mui/material";
 import ApiLogin from "../components/Showroom/apiLogin";
 import Layout from "../components/Showroom/Layout";
-import getpermissionData from "../services/getPermissionData"
+import getpermissionData from "../services/Data/getPermissionData"
 import * as PropTypes from "prop-types";
 import GetPermissions from "../components/Showroom/getPermission"
 import GetCertificate from "../components/Showroom/getCertificate";
@@ -23,8 +23,10 @@ export default function Showroom(props){
     const [loginData, setLoginData] = React.useState({
         username: "",
         password:"",
-        authToken: "",
+        authToken:"",
     })
+
+    const [open, setOpen] = React.useState(false)
 
     const [timeLogin, setTimeLogin]  = React.useState(1);
 
@@ -51,13 +53,27 @@ export default function Showroom(props){
         setComponent(components[element])
     }
 
+    /**
+     * Aufruf von Login bei onClick von Submit
+     */
+    const handleSubmit = () => {
+
+    }
+
 
     /**
      * Komponenten Map.
      */
     const components = {
         "PlcProgram.Browse": <PlcBrowse plcBrowseData={plcBrowseData}/>,
-        "Api.Login":<ApiLogin setLoginData={setLoginData}/>,
+        "Api.Login":<ApiLogin
+            setLoginData={setLoginData}
+            loginData={loginData}
+            username={loginData.username}
+            handleSubmit={handleSubmit}
+            open={open}
+            setOpen ={setOpen}
+        />,
         "Api.GetPermissions": <GetPermissions permissionData = {permissionData}/>,
         "Api.GetCertificateUrl": <GetCertificate url={"/MiniWebCA_Cer.crt"}/>,
         "PlcProgram.Read": <PlcRead/>,

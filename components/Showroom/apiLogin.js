@@ -2,41 +2,19 @@ import {Button, Card, IconButton, Input, Paper, Snackbar, TextField} from "@mui/
 import style from "../../styles/Components.module.css"
 import React from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import {login} from '../../services/requests'
+
 
 export default function ApiLogin(props){
 
-    const [open, setOpen] = React.useState(false);
-    const [authToken, setAuthToken] = React.useState("");
+    //TODO LoginData
 
-    const [input, setInput] = React.useState({
-        username:"",
-        password:"",
-    })
 
-    const setUsername = (e) => {
-    setInput({...input,
-        username: e.target.value});
-    }
 
-    const setPassword = (e) => {
-    setInput({...input,
-    password: e.target.value});
-    }
 
-    const submitUserData = () => {
-        props.setLoginData({
-            username: input.username,
-            password: input.password,
-
-            //TODO
-            authToken: authToken,
-        });
-        setOpen(true);
-        setAuthToken("awfrgsdtbnsdrtrtnbadfbaerhadfbertb")
-    }
 
     const handleClose = () => {
-        setOpen(false);
+        props.setOpen(false);
     };
 
     return (
@@ -52,19 +30,29 @@ export default function ApiLogin(props){
 
                 <div className={style.loginFields}>
                     <TextField
-                        value={input.username}
+                        value={loginData.username}
                         variant="outlined"
                         label="Username"
-                        onChange={setUsername}/>
+                        onChange={(e)=>{
+                            props.setLoginData({
+                                ...props.loginData,
+                                username:e.target.value
+                            })
+                        }}/>
                     <TextField
-                        value={input.password}
+                        value={props.loginData.password}
                         variant="outlined"
                         label={"Password"}
                         type={"password"}
-                        onChange={setPassword}/>
+                        onChange={(e)=>{
+                            props.setLoginData({
+                                ...props.loginData,
+                                password:e.target.value
+                            })
+                        }}/>
                 </div>
                 <Button
-                    onClick={submitUserData}
+                    onClick={tempAPI}
                     variant={"contained"}
                     size={"large"}
                     style={{
@@ -76,11 +64,11 @@ export default function ApiLogin(props){
             </Paper>
 
             <Snackbar
-                open={open}
+                open={props.open}
                 anchorOrigin={{vertical:'bottom',horizontal:'right'}}
                 autoHideDuration={1000}
                 onClose={handleClose}
-                message= {`Token: ${authToken}`}
+                message= {`Token: ${props.loginData.authToken}`}
             />
         </div>
     )
