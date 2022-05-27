@@ -1,5 +1,5 @@
 
-export default function GetCertificate(props){
+export default function ApiGetCertificateUrl(props){
     return(
         <div style={{
             display:"grid",

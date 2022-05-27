@@ -1,6 +1,6 @@
 import {Select, TextField, MenuItem, InputLabel, FormControl, Button, Paper} from "@mui/material";
 import React from "react";
-import style from "../../../styles/Components.module.css"
+import style from "../../styles/Components.module.css"
 
 export default function SearchBarRead(props){
 

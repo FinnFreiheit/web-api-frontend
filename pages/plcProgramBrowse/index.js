@@ -1,9 +1,10 @@
 import {DataGrid} from "@mui/x-data-grid";
 import SearchBarBrowse from "./searchBarBrowse";
 import React from "react"
+import plcBrowseData from "../../services/plcBrowseData";
 
 
-export default function PlcBrowse(props) {
+export default function PlcBrowse() {
 
     const columns = [
         {field: "id", headerName: "id", minWidth: 20, flex: 1},
@@ -13,7 +14,7 @@ export default function PlcBrowse(props) {
         {field: "datatype", headerName: "datatype", minWidth: 150, flex: 1},
     ];
 
-    const rows = props.plcBrowseData.map((row, index) => ({
+    const rows = plcBrowseData.map((row, index) => ({
         id: index,
         name: row.name,
         has_children: row.has_children,

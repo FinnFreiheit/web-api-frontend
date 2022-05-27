@@ -1,13 +1,14 @@
-import style from "../../styles/Components.module.css";
+import style from "../styles/Components.module.css";
 import {Button, List, ListItem, ListItemText, Paper, Snackbar, TextField} from "@mui/material";
 import React from "react";
+import permissionData from "../services/getPermissionData"
 
-export default function GetPermissions(props) {
+export default function GetPermissions() {
 
 
 
     const mapPermission =
-        props.permissionData.map(item => {
+        permissionData.map(item => {
             return <ListItemText key={item.name} primary={item.name}/>
             }
         )

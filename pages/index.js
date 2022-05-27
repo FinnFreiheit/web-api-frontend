@@ -1,10 +1,10 @@
-import SearchBarBrowse from "../components/Showroom/plcBrowse/searchBarBrowse";
+import SearchBarBrowse from "./plcProgramBrowse/searchBarBrowse";
 
 
 export default function Home() {
   return (
     <>
-      <SearchBarBrowse></SearchBarBrowse>
+      <SearchBarBrowse/>
     </>
   )
 }
