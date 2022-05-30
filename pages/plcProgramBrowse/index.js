@@ -1,37 +1,71 @@
 import {DataGrid} from "@mui/x-data-grid";
 import SearchBarBrowse from "./searchBarBrowse";
-import React from "react"
-import plcBrowseData from "../../services/plcBrowseData";
+import React, {useEffect} from "react"
+import {plcProgramBrowse} from "../../services/requests";
+//import plcBrowseData from "../../services/plcBrowseData";
 
 
 export default function PlcBrowse() {
 
-    const columns = [
-        {field: "id", headerName: "id", minWidth: 20, flex: 1},
-        {field: "name", headerName: "Name", minWidth: 250, flex: 1},
-        {field: "has_children", headerName: "has Children", minWidth: 150, flex: 1},
-        {field: "db_number", headerName: "db_number", minWidth: 90, flex: 1},
-        {field: "datatype", headerName: "datatype", minWidth: 150, flex: 1},
-    ];
+    //TODO dynamic Colum.
 
-    const rows = plcBrowseData.map((row, index) => ({
-        id: index,
-        name: row.name,
-        has_children: row.has_children,
-        db_number: row.db_number,
-        datatype: row.datatype,
-    }));
+    const [plcBrowseData, setPlcBrowseData] = React.useState([]);
+
+    useEffect(() => {
+        plcProgramBrowse("children","").then((data) => {
+            console.log(data);
+            setPlcBrowseData(data);
+        })
+    }, [])
+
+
+
+
 
     const [variable, setVariable] = React.useState("")
     const [mode, setMode] = React.useState("")
 
-    const handleSearchSubmit = ()=>{
-        //ToDO Backendcall
-        console.log("Search",mode, variable)
+    const handleSearchSubmit = () => {
+        plcProgramBrowse(mode, variable).then((data) => {
+            console.log(data)
+            setPlcBrowseData(data)
+        })
     }
 
-    const handelCellClick = (cellParam)=> {
+    const handelCellClick = (cellParam) => {
         setVariable(cellParam.row.name);
+    }
+
+    function RenderDataGrid(props){
+        if(props.plcBrowseData.length >= 1) {
+
+            const rows = props.plcBrowseData.map((row, index) => ({
+                id: index,
+                name: row.name,
+                has_children: row.has_children,
+                db_number: row.db_number,
+                datatype: row.datatype,
+            }));
+
+            const columns = [
+                {field: "id", headerName: "id", minWidth: 20, flex: 1},
+                {field: "name", headerName: "Name", minWidth: 250, flex: 1},
+                {field: "has_children", headerName: "has Children", minWidth: 150, flex: 1},
+                {field: "db_number", headerName: "db_number", minWidth: 90, flex: 1},
+                {field: "datatype", headerName: "datatype", minWidth: 150, flex: 1},
+            ];
+
+            return (
+                <DataGrid
+                    autoHeight={true}
+                    rows={rows}
+                    columns={columns}
+                    pageSize={15}
+                    rowsPerPageOptions={[15]}
+                    onCellClick={props.handelCellClick}>
+                </DataGrid>
+            )
+        }
     }
 
     return (
@@ -47,14 +81,7 @@ export default function PlcBrowse() {
                 />
             </div>
             <div style={{width: '100%'}}>
-                <DataGrid
-                    autoHeight={true}
-                    rows={rows}
-                    columns={columns}
-                    pageSize={15}
-                    rowsPerPageOptions={[15]}
-                    onCellClick={handelCellClick}>
-                </DataGrid>
+                <RenderDataGrid handelCellClick={handelCellClick} plcBrowseData={plcBrowseData} />
             </div>
         </>
     )

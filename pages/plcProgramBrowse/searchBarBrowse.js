@@ -31,8 +31,8 @@ export default function SearchBarBrowse(props){
                     autoWidth
                     onChange={handleChange}
                 >
-                    <MenuItem value={"raw"}>raw</MenuItem>
-                    <MenuItem value={"simple"}>simple</MenuItem>
+                    <MenuItem value={"children"}>children</MenuItem>
+                    <MenuItem value={"var"}>var</MenuItem>
                 </Select>
             </FormControl>
             <Button onClick={submitSearch} variant={"contained"}>Search</Button>

@@ -1,5 +1,17 @@
+import React, {useEffect} from "react"
+import {getCertificatURL} from "../services/requests";
 
-export default function ApiGetCertificateUrl(props){
+export default function ApiGetCertificateUrl(){
+
+    const [url, setUrl] = React.useState('bla');
+
+    useEffect(()=>{
+        getCertificatURL().then((res)=> {
+            setUrl(res)
+        })
+    },[])
+
+
     return(
         <div style={{
             display:"grid",
@@ -10,7 +22,7 @@ export default function ApiGetCertificateUrl(props){
         }}>
             <div>
                 <h1>Certificat URL: </h1>
-                <h2><a style={{color:"blue"}}>{props.url}</a></h2>
+                <h2><a style={{color:"blue"}}>{url}</a></h2>
             </div>
         </div>
     )

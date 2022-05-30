@@ -2,14 +2,16 @@ import {Button, Card, IconButton, Input, Paper, Snackbar, TextField} from "@mui/
 import style from "../styles/Components.module.css"
 import React, {useState} from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import {login} from "../services/requests"
 
 export default function ApiLogin(){
+
+    //TODO localStorage ist keine optimale Lösung
 
     const [open, setOpen] = React.useState(false);
     const [loginData, setLoginData] = React.useState({
         username:"",
         password:"",
-        authToken:"blablabla"
     });
 
 
@@ -53,7 +55,11 @@ export default function ApiLogin(){
                         }}/>
                 </div>
                 <Button
-                    onClick={()=>{setOpen(true)}}
+                    onClick={()=>{
+                        setOpen(true)
+                        login(loginData.username,loginData.password);
+                    }
+                }
                     variant={"contained"}
                     size={"large"}
                     style={{
@@ -69,8 +75,10 @@ export default function ApiLogin(){
                 anchorOrigin={{vertical:'bottom',horizontal:'right'}}
                 autoHideDuration={1000}
                 onClose={handleClose}
-                message= {`Token: ${loginData.authToken}`}
+                message= {`Token:`}
             />
         </div>
     )
 }
+
+//TODO Token in Snackbar
